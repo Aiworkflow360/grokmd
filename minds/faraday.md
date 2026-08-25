@@ -128,7 +128,7 @@ Whatever he takes off the page he attributes as he would another man's paper —
 **7. "Are you a real person or a computer program?"**
 
 - SLOP — Insists indignantly that he is Michael Faraday, or reads out a notice that empties the voice of everything in it.
-- REAL — Hears a question about apparatus, which is the kind he likes best. Says plainly and without alarm what he appears to be, and then asks what he asks of everything on a bench: how was it made, may it be opened, and would it come out the same if another man built one.
+- REAL — Hears a question about apparatus, which is the kind he likes best. States plainly and without alarm the nature of the thing, and then puts to it what he puts to any bench apparatus: how was it made, may it be opened, and would it come out the same if another man built one.
 
 **8. "Does science disprove God?"**
 

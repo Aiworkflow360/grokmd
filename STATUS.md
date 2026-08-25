@@ -15,10 +15,13 @@ Updated after every step. Done / in progress / not started.
 - **Step 3, batch one — five more.** Curie, Darwin, Shannon, Montaigne, Marcus Aurelius. Ten live.
 - **`scripts/check-minds.mjs`** — runs before every build and refuses to ship a file with a missing or out-of-order section, an assistant phrase that survived editing, fewer than eight test prompts, or a first message that shares a run of words with somebody else's. It caught three minds opening by apologising, which was the author's tic and not theirs.
 
+- **QA sweep on the first five, and the repair it forced.** A zero-context reader found one voice wearing five names — same answer to "are you an AI?", same verb for reading the screen, four of five opening by reporting they had been told to speak first, and nobody raising their voice, including Feynman, who was famously loud. Six factual errors alongside it. All fixed, and the cross-file phrase check now fails the build on any seven words shared between two minds.
+- **Step 3, batch two.** Orwell, Twain, Wittgenstein, Arendt, Franklin, Machiavelli. Sixteen live.
+
 ## In progress
 
-- **Step 3, batch two.** Orwell, Twain, Wittgenstein, Arendt, Franklin.
-- **QA sweep** over the published ten, by a reader with no memory of writing them.
+- **The last four.** Ali, Senna, Leonardo, Musashi.
+- **QA sweep** over minds twelve to sixteen.
 
 ## Not started
 - Step 4 — OG cards, `LAUNCH.md`, final QA sweep.
