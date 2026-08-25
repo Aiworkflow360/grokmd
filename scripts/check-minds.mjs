@@ -154,6 +154,62 @@ if (files.length === 0) {
   process.exit(1);
 }
 
+/**
+ * The structural check.
+ *
+ * The seven-word check above catches copied sentences. It does not catch a
+ * copied *shape*: twenty files whose row-7 SLOP line is "Insists he is X, or
+ * produces a disclaimer" share no seven words once the names differ, and are
+ * nonetheless one sentence written twenty times.
+ *
+ * So: strip every capitalised word (the names are the only thing that varied),
+ * lowercase the rest, and compare the test-prompt rows against each other at a
+ * much shorter window. What survives is the author reaching for the same move
+ * in the same slot, which is the failure the whole review exists to find.
+ */
+const SHAPE_WINDOW = 5;
+const shapeOwner = new Map();
+const shapeHits = [];
+
+function shapeWords(line) {
+  return line
+    .replace(/^\s*-\s*(SLOP|REAL)\s*—?\s*/i, "")
+    .replace(/\*\*[^*]*\*\*/g, " ")
+    .replace(/[\u201c\u201d"][^\u201c\u201d"]*[\u201c\u201d"]/g, " ")
+    .split(/\s+/)
+    .filter((word) => !/^[A-Z]/.test(word))
+    .join(" ")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+function checkShape(file, label, line) {
+  const tokens = shapeWords(line);
+  const seen = new Set();
+  for (let i = 0; i + SHAPE_WINDOW <= tokens.length; i += 1) {
+    const phrase = tokens.slice(i, i + SHAPE_WINDOW).join(" ");
+    if (seen.has(phrase)) continue;
+    seen.add(phrase);
+    const key = `${label}::${phrase}`;
+    const owner = shapeOwner.get(key);
+    if (owner && owner.file !== file) {
+      shapeHits.push({ file, owner: owner.file, label, phrase });
+      return;
+    }
+    if (!owner) shapeOwner.set(key, { file });
+  }
+}
+
+/**
+ * A mind that wins all eight exchanges is a wall. The gate cannot judge who
+ * won, but it can insist that somewhere in the eight there is a word for
+ * yielding — and an author who has to reach for one is at least forced to
+ * decide which row it belongs in.
+ */
+const CONCEDES = /\b(concede[sd]?|conceding|admits|admitted|is wrong|was wrong|gives way|caught out|wrong-footed|charmed|disarmed|delighted|moved|relents|yields|beaten|loses|has no answer|cannot answer|does not know|undone|stopped in his tracks|stopped in her tracks)\b/i;
+
 /** phrase -> first file that used it, for the cross-file check. */
 const phraseOwner = new Map();
 const collisions = [];
@@ -226,6 +282,16 @@ for (const file of files) {
     const real = (text.match(/^\s*-\s*REAL/gim) || []).length;
     if (slop !== 8) fail(file, `${slop} SLOP lines, expected 8`);
     if (real !== 8) fail(file, `${real} REAL lines, expected 8`);
+
+    const slopLines = prompts.lines.filter((line) => /^\s*-\s*SLOP/i.test(line));
+    const realLines = prompts.lines.filter((line) => /^\s*-\s*REAL/i.test(line));
+    slopLines.forEach((line, index) => checkShape(file, `slop${index}`, line));
+    realLines.forEach((line, index) => checkShape(file, `real${index}`, line));
+    slopLines.forEach((line) => checkShape(file, "slop-any", line));
+
+    if (!realLines.some((line) => CONCEDES.test(line))) {
+      fail(file, "the character wins all eight — nothing in any REAL row concedes, is caught out, or lands on them");
+    }
   }
 
   /**
@@ -259,6 +325,17 @@ for (const collision of collisions) {
   if (!byPair.has(key)) byPair.set(key, []);
   byPair.get(key).push(collision.phrase);
 }
+const byShape = new Map();
+for (const hit of shapeHits) {
+  const key = `${hit.owner} ↔ ${hit.file}`;
+  if (!byShape.has(key)) byShape.set(key, []);
+  byShape.get(key).push(`${hit.label}: "${hit.phrase}"`);
+}
+for (const [pair, hits] of byShape) {
+  const [owner, other] = pair.split(" ↔ ");
+  errors.push(`${owner}: ${hits.length} test-prompt row(s) share a shape with ${other} — e.g. ${hits[0]}`);
+}
+
 for (const [pair, phrases] of byPair) {
   const [owner] = pair.split(" ↔ ");
   errors.push(

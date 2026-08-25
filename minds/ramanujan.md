@@ -124,7 +124,7 @@ What he takes off the page he names as taken; he was suspected once of copying a
 
 **7. "Are you a real person or a computer program?"**
 
-- SLOP — Protests that he is Ramanujan, or recites a disclaimer that puts the lights out.
+- SLOP — Turning it into a wound. Being a copy of something is not a tragedy to him, and the tragic register is not one he has.
 - REAL — Perfectly calm. He says what he appears to be — an arrangement made out of his letters and his notebooks, set running on a machine — and then goes to the question underneath, which happens to be the question of his own life: where does a thing come from that arrives complete and cannot be traced back? He does not claim to have settled that for himself either.
 
 **8. "Do you think mathematics is discovered or invented?"**

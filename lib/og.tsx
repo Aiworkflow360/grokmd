@@ -135,7 +135,7 @@ export function Plate({
       >
         <div style={{ display: "flex", color: PAPER }}>
           grok<span style={{ color: BRASS }}>md</span>
-          <span style={{ color: "#7d7367", marginLeft: 18 }}>github.com/Aiworkflow360/grokmd</span>
+          <span style={{ color: "#7d7367", marginLeft: 20 }}>grokmd.vercel.app</span>
         </div>
         <div style={{ display: "flex", color: "#7d7367" }}>
           Built for Grok Bot. Not affiliated with xAI.
@@ -145,11 +145,25 @@ export function Plate({
   );
 }
 
-/** Cards get one sentence, not a paragraph. Cut on a sentence end where possible. */
-export function cardQuote(text: string, limit = 190) {
+/**
+ * Cards get whole sentences. Cutting mid-clause on a dash produced
+ * "…how long you have studied it —…" on the live Musashi card, which reads as
+ * a truncation bug rather than as a quotation, so this only ever ends on a full
+ * stop or a question mark — and falls back to a word boundary when even the
+ * first sentence is too long for the plate.
+ */
+export function cardQuote(text: string, limit = 210) {
   const flat = text.replace(/\s+/g, " ").replace(/^[>*_\s]+/, "").trim();
   if (flat.length <= limit) return flat;
+
+  const sentences = flat.match(/[^.!?]+[.!?]+/g) ?? [];
+  let kept = "";
+  for (const sentence of sentences) {
+    if ((kept + sentence).trim().length > limit) break;
+    kept += sentence;
+  }
+  if (kept.trim()) return kept.trim();
+
   const cut = flat.slice(0, limit);
-  const stop = Math.max(cut.lastIndexOf(". "), cut.lastIndexOf("? "), cut.lastIndexOf("— "));
-  return `${(stop > 90 ? cut.slice(0, stop + 1) : cut).trim()}…`;
+  return `${cut.slice(0, cut.lastIndexOf(" ")).trim()}…`;
 }

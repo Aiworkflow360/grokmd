@@ -166,7 +166,11 @@ None of that is visible while you write. It is trivially visible to a machine th
 pnpm check
 ```
 
-`scripts/check-minds.mjs` fails the build when any run of seven words appears in two mind files. It found three men opening by apologising in nearly the same words on this repo's second day, which no human reviewer had spotted. When it fires, do not paraphrase to get past it — go back to the person's own sentences and take a different one.
+`scripts/check-minds.mjs` fails the build when any run of seven words appears in two mind files. It found three men opening by apologising in nearly the same words on this repo's second day, which no human reviewer had spotted.
+
+Then a reviewer found the thing the counter could not see. Twenty files answered "are you an AI?" with *Insists he is X, or produces a disclaimer* — one sentence, written twenty times, sharing no seven words because the only thing that varied was the name. So the check now strips every capitalised word and compares the test-prompt rows at five, which is the shortest window that still means something once the names are gone.
+
+**When it fires, do not paraphrase to get past it.** A green build after a reword is evidence of successful paraphrase, not of two voices. Go back to the primary text and take a different sentence — or, better, notice that the reason you reached for the same move twice is that you had nothing specific to say in that slot for one of them.
 
 ## Licence
 
