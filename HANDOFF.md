@@ -5,37 +5,55 @@
 
 ## What this is
 
-Twenty `GROK.md` files that turn a general assistant into a particular person, plus the site that
-serves them. Grok Bot shipped with a computer and nobody to be; this is the directory.
+Twenty `GROK.md` files that turn a general assistant into a particular person for the length of a conversation, plus the site that hands them over in two taps. Grok Bot shipped with a computer and nobody to be; this is the directory.
 
-Read `SPEC.md` before touching a mind file — it is the format and the review checklist.
-Read `AGENTS.md` before touching anything else.
+Read `SPEC.md` before touching a mind file. Read `AGENTS.md` before touching anything else.
+
+## The one thing to understand before editing
+
+**The failure is never in the file you are looking at. It is across the set.**
+
+Write two of these and your own sentences leak into both. Two independent reviewers found it, and neither found it by reading a file — they found it by reading files side by side. What they caught:
+
+- Every character answering "are you an AI?" with one sentence and a swapped name.
+- Every ignorance-map section ending with the same two-sentence template.
+- Every grief question resolving as "goes short, changes the subject" — for five entirely different wounds.
+- Every character winning all eight test prompts, which makes a wall rather than a mind.
+- Anger written as quiet and controlled in every file, because that is the author's taste, to the point of overwriting the documented fact that Feynman was loud.
+
+`pnpm check` now catches the mechanical shadow of all of that. It cannot catch the next version of it. When the check fires, **do not paraphrase your way past it** — a green build after a reword is evidence of successful paraphrase. Go back to the primary text.
 
 ## State
 
-See `STATUS.md` for the live done/doing/next list. In short: the site is deployed, the spec is
-written, and minds land in batches with a redeploy after each batch.
+`STATUS.md` has the live list. In short: all twenty published, share cards and `LAUNCH.md` done, three review passes run and their findings applied.
 
 ## How it fits together
 
-- `minds/*.md` — the product. Frontmatter plus nine `#` headings.
-- `lib/minds.ts` — reads and parses them at build time. Publication order is the `ROSTER` array.
-- `lib/markdown.ts` — ~140 lines, renders the markdown subset this repo writes. No dependency.
-- `app/m/[id]/page.tsx` — the mind page. Hoists "First message" and "Who is speaking" out of the
-  prose and gives them their own treatment; everything else renders in order.
-- `config/coming.ts` — the queue. Names only, never files.
+- `minds/*.md` — the product. Frontmatter plus nine `#` headings in a fixed order.
+- `lib/minds.ts` — reads and parses them at build time. Shelf order is the `ROSTER` array.
+- `lib/markdown.ts` — ~150 lines, renders the markdown subset this repo writes. No dependency.
+- `lib/og.tsx` — the share-card plate. Fonts are committed under `public/fonts` so card generation needs no network.
+- `app/m/[id]/page.tsx` — hoists "First message" and "Who is speaking" out of the prose and gives them their own treatment; everything else renders in order.
+- `config/coming.ts` — the queue. Names only.
+- `scripts/check-minds.mjs` — the gate. Runs before `next build`.
 
 ## Adding a mind
 
 1. Write `minds/<id>.md` to the spec.
-2. Add the id to `ROSTER` in `lib/minds.ts` in the position it should appear on the shelf.
-3. `pnpm build`, then `vercel --yes`.
+2. Add the id to `ROSTER` in `lib/minds.ts` where it belongs on the shelf.
+3. `pnpm build` — the check runs first and will refuse work that repeats another file.
+4. `git push`. The Vercel project is connected; a push to `main` deploys production.
 
-There is no other registration step and no database.
+No database, no CMS, no other registration step.
 
-## Rules that are easy to break by accident
+## Traps
 
-- The nine headings are parsed by prefix. Renaming "First message" silently empties the wall quote.
-- A mind that fails review does not go on the shelf. Reject and rewrite; do not patch.
+- The nine headings are matched by prefix. Renaming "First message" silently empties the wall quote.
+- A first message over three sentences fails the build. That limit is in the spec and is worth keeping.
+- The first message renders as markdown. It did not, once, and every emphasis mark printed literally on the wall and on the share card.
 - `/coming` gets names. It never gets a file.
-- No living people, ever.
+- No living people. Ever.
+
+## What a fourth reviewer should look for
+
+Both reviews so far found more than they were asked for, and the most valuable findings were factual: a Dawkins line put in Twain's mouth inside the file about misattributed Twain quotes; letters to a wife Faraday had not met; Turing simultaneously forty-one and mid-treatment; Ramanujan aged thirty-one at thirty-two. **Check the claims against the sources before you check the prose against the spec.**
