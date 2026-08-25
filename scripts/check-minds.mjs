@@ -1,10 +1,17 @@
 #!/usr/bin/env node
 /**
- * The mechanical half of review. It cannot tell you whether a mind sounds like
- * the person — that is a human reading the letters — but it can refuse the
- * failures that are checkable: a missing section, a section out of order, an
- * assistant phrase that survived editing, a first message that reads like
- * somebody else's, fewer than eight test prompts.
+ * The mechanical half of review.
+ *
+ * It cannot tell you whether a mind sounds like the person — that is a human
+ * reading the letters — but it can refuse the failures that are checkable, and
+ * one of those turns out to be the failure that matters most.
+ *
+ * When five files are written by one person, the author's sentences leak into
+ * all five. Five different centuries end up answering "are you an AI?" with the
+ * same clause. That is invisible while you write and obvious when a machine
+ * counts it, so the cross-file phrase check below is the important part of this
+ * script: any run of seven words appearing in two mind files is the author
+ * talking, not the subject.
  *
  * Runs before every build. A file that fails does not ship.
  */
@@ -45,22 +52,30 @@ const BANNED = [
 ];
 
 /**
- * Banned only where the character is speaking. The Idiolect "never" lists quote
- * these phrases on purpose in order to forbid them, so those sections are
- * exempt and everything else is not.
+ * The author, visible in his own product. A mind file is addressed to a model
+ * about one person; it must not know it is on a shelf, and it must not contain
+ * workshop notes.
  */
-const SPEECH_SECTIONS = ["who is speaking", "first message"];
+const AUTHOR_LEAKS = [
+  "the directory",
+  "this directory",
+  "on the shelf",
+  "this file",
+  "the file",
+  "a file that",
+  "anti-slop",
+  "the spec",
+  "the other minds",
+];
+
+/** How many words in a row two files may share before it is one voice, not two. */
+const PHRASE_WINDOW = 7;
 
 const errors = [];
 const warnings = [];
 
-function fail(file, message) {
-  errors.push(`${file}: ${message}`);
-}
-
-function warn(file, message) {
-  warnings.push(`${file}: ${message}`);
-}
+const fail = (file, message) => errors.push(`${file}: ${message}`);
+const warn = (file, message) => warnings.push(`${file}: ${message}`);
 
 function parse(file, source) {
   const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(source);
@@ -106,6 +121,30 @@ function parse(file, source) {
   return { front, sources, sections };
 }
 
+/**
+ * Words only, lowercased — so punctuation and emphasis cannot hide a repeat.
+ *
+ * Two kinds of text are stripped first, because they are shared on purpose:
+ * anything in **bold** (the spec's own section labels — Fraud, Must, Never,
+ * Licensed advice he never held) and anything in "quotes" (the eight test
+ * prompts are the same eight situations in every file, and the Idiolect never
+ * lists quote assistant phrases in order to forbid them). What is left is the
+ * author writing in his own voice, which is the thing being counted.
+ */
+function words(text) {
+  return text
+    .replace(/\*\*[^*]*\*\*/g, " ")
+    .replace(/[\u201c\u201d"][^\u201c\u201d"]*[\u201c\u201d"]/g, " ")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+function sentenceCount(text) {
+  return (text.match(/[.!?](\s|$)/g) || []).length;
+}
+
 const files = fs.existsSync(MINDS)
   ? fs.readdirSync(MINDS).filter((name) => name.endsWith(".md")).sort()
   : [];
@@ -115,7 +154,9 @@ if (files.length === 0) {
   process.exit(1);
 }
 
-const firstMessages = new Map();
+/** phrase -> first file that used it, for the cross-file check. */
+const phraseOwner = new Map();
+const collisions = [];
 
 for (const file of files) {
   const source = fs.readFileSync(path.join(MINDS, file), "utf8");
@@ -136,9 +177,9 @@ for (const file of files) {
   const headings = sections.map((section) => section.heading.toLowerCase());
   let cursor = 0;
   for (const required of REQUIRED_SECTIONS) {
-    const found = headings.findIndex((heading, index) => index >= cursor && heading.startsWith(required));
+    const found = headings.findIndex((h, index) => index >= cursor && h.startsWith(required));
     if (found === -1) {
-      const anywhere = headings.some((heading) => heading.startsWith(required));
+      const anywhere = headings.some((h) => h.startsWith(required));
       fail(file, anywhere ? `section "${required}" is out of order` : `missing section "${required}"`);
     } else {
       cursor = found + 1;
@@ -147,34 +188,38 @@ for (const file of files) {
 
   for (const section of sections) {
     const heading = section.heading.toLowerCase();
-    const isIdiolect = heading.startsWith("idiolect");
-    if (isIdiolect) continue;
-    const text = section.lines.join("\n").toLowerCase();
+    const text = section.lines.join("\n");
+    const lower = text.toLowerCase();
+
+    for (const leak of AUTHOR_LEAKS) {
+      // Word-boundaried, so "the spec" does not fire on "the specimen".
+      const pattern = new RegExp(`\\b${leak}\\b`);
+      if (pattern.test(lower)) fail(file, `author's voice: "${leak}" in "${section.heading}"`);
+    }
+
+    // The Idiolect "never" list quotes assistant phrases in order to ban them.
+    if (heading.startsWith("idiolect")) continue;
     for (const phrase of BANNED) {
-      if (text.includes(phrase)) {
-        // The test-prompt rows quote these deliberately, on the SLOP line.
-        const onlyInSlop = section.lines
-          .filter((line) => line.toLowerCase().includes(phrase))
-          .every((line) => /^\s*-\s*SLOP/i.test(line));
-        if (!onlyInSlop) fail(file, `assistant phrase "${phrase}" in section "${section.heading}"`);
-      }
+      if (!lower.includes(phrase)) continue;
+      const onlyInSlop = section.lines
+        .filter((line) => line.toLowerCase().includes(phrase))
+        .every((line) => /^\s*-\s*SLOP/i.test(line));
+      if (!onlyInSlop) fail(file, `assistant phrase "${phrase}" in "${section.heading}"`);
     }
   }
 
-  const firstMessage = sections.find((section) => section.heading.toLowerCase().startsWith("first message"));
+  const firstMessage = sections.find((s) => s.heading.toLowerCase().startsWith("first message"));
   if (firstMessage) {
     const text = firstMessage.lines.join("\n").replace(/^>\s?/gm, "").trim();
     if (!text) fail(file, "first message is empty");
     if (/^(greetings|hello|hi there|welcome)/i.test(text)) {
       fail(file, "first message opens with a greeting");
     }
-    if (text.split(/\s+/).length > 130) {
-      warn(file, "first message is long — the spec asks for one punch");
-    }
-    firstMessages.set(file, text);
+    const count = sentenceCount(text);
+    if (count > 3) fail(file, `first message is ${count} sentences — the spec caps it at three`);
   }
 
-  const prompts = sections.find((section) => section.heading.toLowerCase().startsWith("eight test prompts"));
+  const prompts = sections.find((s) => s.heading.toLowerCase().startsWith("eight test prompts"));
   if (prompts) {
     const text = prompts.lines.join("\n");
     const slop = (text.match(/^\s*-\s*SLOP/gim) || []).length;
@@ -182,27 +227,43 @@ for (const file of files) {
     if (slop !== 8) fail(file, `${slop} SLOP lines, expected 8`);
     if (real !== 8) fail(file, `${real} REAL lines, expected 8`);
   }
-}
 
-/**
- * The first-message test, mechanised as far as it goes: two openings that share
- * a long run of words are not two people. A human still has to apply the real
- * version of this test, which is covering the name and reading it aloud.
- */
-const entries = [...firstMessages.entries()];
-for (let i = 0; i < entries.length; i += 1) {
-  for (let j = i + 1; j < entries.length; j += 1) {
-    const a = entries[i][1].toLowerCase().split(/\s+/);
-    const b = new Set();
-    const bWords = entries[j][1].toLowerCase().split(/\s+/);
-    for (let k = 0; k + 6 <= bWords.length; k += 1) b.add(bWords.slice(k, k + 6).join(" "));
-    for (let k = 0; k + 6 <= a.length; k += 1) {
-      if (b.has(a.slice(k, k + 6).join(" "))) {
-        fail(entries[i][0], `first message shares a run of words with ${entries[j][0]}`);
-        k = a.length;
-      }
+  /**
+   * Cross-file phrase check. Sources are bibliographies and legitimately share
+   * wording ("letters", "notebooks"), so they are excluded; everything the
+   * character or the character sheet says is in scope.
+   */
+  const prose = sections
+    .filter((s) => !s.heading.toLowerCase().startsWith("sources"))
+    .map((s) => s.lines.join("\n"))
+    .join("\n");
+  const seenHere = new Set();
+  const tokens = words(prose);
+  for (let i = 0; i + PHRASE_WINDOW <= tokens.length; i += 1) {
+    const phrase = tokens.slice(i, i + PHRASE_WINDOW).join(" ");
+    if (seenHere.has(phrase)) continue;
+    seenHere.add(phrase);
+    const owner = phraseOwner.get(phrase);
+    if (owner && owner !== file) {
+      collisions.push({ file, owner, phrase });
+    } else if (!owner) {
+      phraseOwner.set(phrase, file);
     }
   }
+}
+
+/** One report per file pair, with an example — a list of 300 is unreadable. */
+const byPair = new Map();
+for (const collision of collisions) {
+  const key = `${collision.owner} ↔ ${collision.file}`;
+  if (!byPair.has(key)) byPair.set(key, []);
+  byPair.get(key).push(collision.phrase);
+}
+for (const [pair, phrases] of byPair) {
+  const [owner] = pair.split(" ↔ ");
+  errors.push(
+    `${owner}: shares ${phrases.length} phrase(s) with ${pair.split(" ↔ ")[1]} — e.g. "${phrases[0]}"`,
+  );
 }
 
 for (const warning of warnings) console.warn(`  warn  ${warning}`);
@@ -214,4 +275,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`check-minds: ${files.length} file(s) pass.`);
+console.log(`check-minds: ${files.length} file(s) pass — no shared ${PHRASE_WINDOW}-word phrases.`);

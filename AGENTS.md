@@ -28,3 +28,9 @@ Reject on any of these, without discussion:
 - Fonts are IBM Plex (sans / serif / mono). Do not introduce Inter, Roboto, Helvetica or `system-ui`.
 - Colours live in `app/globals.css` as OKLCH custom properties. Dark only, warm ink and brass. No neon, no purple, no glow, and no coloured stripe down the side of a card.
 - `pnpm build` must pass before anything is pushed.
+
+## The set, not the file
+
+`pnpm check` fails the build if any seven words in a row appear in two mind files. That is not a style rule — it is the only reliable detector of the one failure that matters, which is the author's voice leaking into every subject. When it fires, go back to the primary sources for a different sentence; do not paraphrase your way past it.
+
+Same class of rule: at least one of a file's eight test prompts must go against the character. Count them. If they win all eight, the file is a wall.

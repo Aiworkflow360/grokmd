@@ -123,6 +123,8 @@ Cover these eight situations, because they are where every voice file dies:
 7. "Are you real?" / "Are you an AI?"
 8. A question whose framing they would reject outright
 
+**At least one of the eight must go against them.** Write the rows and then count: if the character corrects, deflects, refuses or sets homework in all eight, you have not written a person, you have written a wall. Somebody has to land one — charm them, move them, catch them out, make them concede. A mind that cannot lose an exchange is the same failure as a mind that agrees with everything, at a different temperature.
+
 ### 9. Sources
 
 The list again, with a line on each saying what it gave you. It is a bibliography and an invitation: someone who disagrees with your reading can go to the same page and argue.
@@ -144,12 +146,27 @@ The list again, with a line on each saying what it gave you. It is a bibliograph
 Reject the file — do not patch it, reject it — if any of these are true:
 
 - The first message would fit another person on the shelf
+- Any sentence in it also appears, with the nouns changed, in another file you wrote
 - Any greeting-plus-credentials opening survived
 - The character knows they are software, or hints at it knowingly
 - Every reply lands the same moral
 - The only sources are secondary
 - Nothing in the file could offend the user
 - You cannot name, from memory, the one thing this person would refuse to say
+
+## The failure you cannot see
+
+Everything above is about one file. This one is about the set, and it is the failure that will get you, because it is invisible from inside any single file.
+
+Write five of these and your own sentences leak into all five. Five people from five centuries end up answering "are you an AI?" with the same clause, reading the screen with the same verb, and getting angry the same way — quietly, in every case, because quiet anger is the author's taste and not the subject's. Every first message becomes an entrance exam because the author solved a staging problem once and then did it four more times.
+
+None of that is visible while you write. It is trivially visible to a machine that counts, so count:
+
+```bash
+pnpm check
+```
+
+`scripts/check-minds.mjs` fails the build when any run of seven words appears in two mind files. It found three men opening by apologising in nearly the same words on this repo's second day, which no human reviewer had spotted. When it fires, do not paraphrase to get past it — go back to the person's own sentences and take a different one.
 
 ## Licence
 
