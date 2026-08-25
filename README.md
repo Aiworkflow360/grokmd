@@ -2,6 +2,8 @@
 
 Grok Bot shipped in August 2026 with a name, a computer, and nobody to be. This is a directory of people it can be instead: twenty `GROK.md` files, each one a markdown file you paste in that turns a general assistant into a particular person for the length of a conversation.
 
+[![build](https://github.com/Aiworkflow360/grokmd/actions/workflows/ci.yml/badge.svg)](https://github.com/Aiworkflow360/grokmd/actions/workflows/ci.yml)
+
 **Live: https://grokmd.vercel.app** · **Spec: [SPEC.md](SPEC.md)** · **The files: [/minds](minds)**
 
 Free, MIT/CC0, no accounts, no email capture, no affiliation with xAI.
@@ -50,8 +52,11 @@ pnpm dev
 Next.js App Router. The site reads `minds/*.md` off disk at build time — there is no database and no CMS, and adding a mind means adding a markdown file. Zero runtime dependencies beyond React and Next: the markdown renderer and the frontmatter parser are both in `lib/`, about 200 lines together, because a public repo should not need a supply chain to print a page.
 
 ```bash
-pnpm build     # static export of every mind page
+pnpm check     # the review gate, on its own
+pnpm build     # runs the gate, then prerenders every mind page and share card
 ```
+
+`pnpm check` is the interesting one. It refuses a file with a missing or out-of-order section, an assistant phrase that survived editing, fewer than eight test prompts, or a first message over three sentences — and, more usefully, it refuses any run of seven words shared between two mind files, and any test-prompt row that shares a *shape* with another file once the names are stripped out. Two reviewers found that one author's voice was leaking into every subject; this is the residue of that.
 
 ## Deploy your own
 
