@@ -20,9 +20,19 @@ The first review found one voice wearing five names. Every file answered "are yo
 
 The second review found that the counter was being satisfied by **paraphrase**. Twenty files still said *Insists he is X, or produces a disclaimer* — one sentence, twenty times, sharing no seven words because the only thing that varied was the name. The check now also strips every capitalised word and compares the test-prompt rows at five, and fails any file where nothing in the eight rows concedes. Seven files failed that on the day it was added.
 
-## In progress
+- **Third review**, over the nine minds nobody had checked, and the repairs it forced — see below.
+- **Two live performances.** Somebody put Feynman's file on and answered five questions cold, then Marcus's. Both worked. Both reports named the same defect and it has been fixed.
 
-- **Third review**, over the nine minds no reader has seen yet.
+## What the three reviews cost, and what they were worth
+
+The third review found more in nine files than the first two found in eleven. Thirty-three factual corrections, of which the worst was Darwin: the file had him remembering brushing Annie's hair, and in his own memorial of her it is Annie who steals up behind him and brushes his, *making it beautiful*. A private document about a dead ten-year-old with the direction of the affection reversed.
+
+Also: Curie's twenty radiological cars had become two hundred mobile units. Ali could not be thirty-six, champion, and in 1980 at once. Senna's bibliography cited statements about an institute founded after his death. Musashi's file quoted the first of the twenty-one precepts and gave the sixth. Leonardo simultaneously knew and did not know the Milan wall was lifting.
+
+And two structural ones, both now enforced:
+
+- **Nineteen files said one instruction nineteen ways**, rotating the verb to clear a seven-word window. That instruction has to be in every file — a file gets pasted somewhere on its own — so it is one identical sentence now, marked as boilerplate and exempt by name. Honest repetition beats disguised repetition.
+- **Every first message was an entrance exam**, which is the failure the spec names by name, committed twenty times. Ten of them stop demanding anything now, and the build fails when more than half do.
 
 ## Not started
 

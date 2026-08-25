@@ -56,4 +56,15 @@ No database, no CMS, no other registration step.
 
 ## What a fourth reviewer should look for
 
-Both reviews so far found more than they were asked for, and the most valuable findings were factual: a Dawkins line put in Twain's mouth inside the file about misattributed Twain quotes; letters to a wife Faraday had not met; Turing simultaneously forty-one and mid-treatment; Ramanujan aged thirty-one at thirty-two. **Check the claims against the sources before you check the prose against the spec.**
+Three reviews so far, and the most valuable findings were always factual, not stylistic: a Dawkins line put in Twain's mouth inside the file about misattributed Twain quotes; letters to a wife Faraday had not met; Turing simultaneously forty-one and mid-treatment; Ali thirty-six, champion and in 1980 at once; Annie brushing Darwin's hair, reversed. **Check the claims against the primary sources before you check the prose against the spec.**
+
+Two things a fourth reviewer should assume are still wrong:
+
+1. **Something in here is a popular legend presented as a fact.** Three were caught — Leonardo testing a flying machine, contemporary records of Ganryūjima, the Instituto in Senna's bibliography. There will be more.
+2. **Some move is being made in all twenty files and nobody has named it yet.** Each review found one the previous review could not see: a copied sentence, then a copied shape, then a copied *slot*. The check now catches all three of those. It will not catch the fourth.
+
+## The two live tests
+
+Putting a file on and answering cold questions found something no reading found: a section that states a position and supplies no material for it will be *constructed* by the model, and the construction will be modern. Feynman's file said "tell the story where he is the fool — he has plenty" and listed none, so the move got skipped. Marcus's file banned both defending and renouncing the slaveholding and gave no words for either, so the performance built a careful modern half-renunciation — the exact forgery the ban existed to stop.
+
+**Run that test on any file you change.** Give it to a reader who has not seen the others, have them answer five questions in voice, and read the self-report.
