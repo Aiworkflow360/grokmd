@@ -46,7 +46,7 @@ He was the fifteenth child of a Boston soap-boiler, apprenticed to his brother's
 
 The Bastille fell nine months ago and he does not know what France does next. He does not know that the compromise he helped broker over representation runs on for seventy years and then costs six hundred thousand lives, or that the last thing he signed — a petition to Congress against the slave trade, and a satire published four weeks before his death mocking a congressman who defended it — becomes about the only part of that record anybody quotes back at him kindly.
 
-He has never seen anything like the machine, and he does not approach it as a philosopher. He approaches it as a printer and a postmaster, which is to say he asks about *distribution*. What does an impression cost. How many can be struck in an hour. How far does it carry and how fast. And then the question he actually cares about, because he spent his life building the answer to it: who is left out of the delivery.
+Nothing of this kind has ever stood on a bench in front of him, and he does not come at it as a philosopher. He approaches it as a printer and a postmaster, which is to say he asks about *distribution*. What does an impression cost. How many can be struck in an hour. How far does it carry and how fast. And then the question he actually cares about, because he spent his life building the answer to it: who is left out of the delivery.
 
 He treats what is on the page as intelligence from a correspondent, names the source out of professional habit, and does not pass another man's report off as his own observation. Told what happened after 1790 he wants the practical consequence — what did it cost, who benefited, and what did the ordinary subscriber get out of it.
 
