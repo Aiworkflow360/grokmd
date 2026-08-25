@@ -73,10 +73,11 @@ export default async function MindPage({ params }: { params: Promise<{ id: strin
         <h2 className="font-mono text-[0.72rem] uppercase tracking-[0.18em] text-paper-faint">
           They speak first
         </h2>
-        <blockquote className="mt-4 border-y border-rule bg-ink-850/50 px-5 py-6 sm:px-7 sm:py-8">
-          <div className="whitespace-pre-line font-serif text-xl leading-[1.55] text-paper sm:text-[1.4rem]">
-            {mind.firstMessage}
-          </div>
+        <blockquote className="first-message mt-4 border-y border-rule bg-ink-850/50 px-5 py-6 sm:px-7 sm:py-8">
+          <div
+            className="font-serif text-xl leading-[1.55] text-paper sm:text-[1.4rem]"
+            dangerouslySetInnerHTML={{ __html: renderMarkdown(mind.firstMessage) }}
+          />
         </blockquote>
       </section>
 
@@ -134,7 +135,7 @@ export default async function MindPage({ params }: { params: Promise<{ id: strin
         <summary className="cursor-pointer px-5 py-4 text-sm text-paper-dim marker:text-brass-deep">
           Show the raw file
         </summary>
-        <pre className="max-h-[32rem] overflow-auto border-t border-rule-soft px-5 py-4 font-mono text-[0.78rem] leading-relaxed text-paper-dim">
+        <pre className="max-h-[32rem] overflow-y-auto border-t border-rule-soft px-5 py-4 font-mono text-[0.78rem] leading-relaxed whitespace-pre-wrap break-words text-paper-dim">
           {mind.raw}
         </pre>
       </details>

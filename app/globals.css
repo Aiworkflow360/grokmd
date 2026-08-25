@@ -252,3 +252,12 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* The first message on a mind page: markdown, so emphasis is emphasis. */
+.first-message p + p {
+  margin-top: 1.1em;
+}
+
+.first-message em {
+  font-style: italic;
+}

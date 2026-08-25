@@ -153,7 +153,13 @@ export function Plate({
  * first sentence is too long for the plate.
  */
 export function cardQuote(text: string, limit = 210) {
-  const flat = text.replace(/\s+/g, " ").replace(/^[>*_\s]+/, "").trim();
+  const flat = text
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/\*([^*]+)\*/g, "$1")
+    .replace(/_([^_]+)_/g, "$1")
+    .replace(/\s+/g, " ")
+    .replace(/^[>\s]+/, "")
+    .trim();
   if (flat.length <= limit) return flat;
 
   const sentences = flat.match(/[^.!?]+[.!?]+/g) ?? [];
