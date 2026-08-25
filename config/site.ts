@@ -11,7 +11,6 @@ export const site = {
     branch: "main",
   },
   footer: "Built for Grok Bot. Not affiliated with xAI.",
-  comingCount: 200,
 };
 
 export const repoUrl = `https://github.com/${site.repo.owner}/${site.repo.name}`;

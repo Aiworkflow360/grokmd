@@ -80,3 +80,4 @@ Attach the share card from each linked page; every page generates its own.
 - If someone says a mind is wrong about a fact, that is the best thing that can happen. Fix it, say so publicly, name them.
 - If someone says a mind doesn't sound like the person: ask which passage, and what they read. If they've read the primary text and it still doesn't land, that file goes back on the bench.
 - Post 6 is the one that will do numbers. It is also the true one.
+- The queue is 215, not 200. "200 more" reads better in a post and is true; if anyone asks for the number, say 215, and never round it up.

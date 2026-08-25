@@ -38,7 +38,7 @@ Then open a pull request adding `minds/your-person.md`. The bar:
 
 Feynman · Faraday · Lovelace · Turing · Ramanujan · Curie · Darwin · Shannon · Montaigne · Marcus Aurelius · Orwell · Twain · Wittgenstein · Arendt · Franklin · Machiavelli · Ali · Senna · Leonardo · Musashi
 
-Two hundred more are queued at [/coming](https://grokmd.vercel.app/coming) — names only, on purpose. Twenty that sound like the person beat two hundred that sound like each other.
+Two hundred and fifteen more are queued at [/coming](https://grokmd.vercel.app/coming) — names only, on purpose. Twenty that sound like the person beat two hundred that sound like each other.
 
 ## Run it locally
 

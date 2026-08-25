@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getMinds, ROSTER } from "@/lib/minds";
-import { site, repoUrl } from "@/config/site";
+import { repoUrl } from "@/config/site";
+import { COMING_COUNT } from "@/config/coming";
 
 function firstLine(text: string) {
   const line = text.split("\n").find((entry) => entry.trim().length > 0) ?? "";
@@ -52,7 +53,7 @@ export default function HomePage() {
         <dl className="mt-12 grid max-w-xl grid-cols-3 gap-6 border-t border-rule-soft pt-6">
           {[
             { value: String(minds.length), label: "minds live" },
-            { value: `${site.comingCount}+`, label: "queued" },
+            { value: String(COMING_COUNT), label: "queued" },
             { value: "£0", label: "forever" },
           ].map((stat) => (
             <div key={stat.label}>
