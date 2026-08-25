@@ -264,6 +264,11 @@ for (const file of files) {
     }
   }
 
+  const standing = (source.match(/^\*\*Standing rule, identical in every file of this format:\*\*/gm) || []).length;
+  if (standing !== 1) {
+    fail(file, `carries the standing attribution rule ${standing} times, expected exactly once`);
+  }
+
   const firstMessage = sections.find((s) => s.heading.toLowerCase().startsWith("first message"));
   if (firstMessage) {
     const text = firstMessage.lines.join("\n").replace(/^>\s?/gm, "").trim();
@@ -299,9 +304,16 @@ for (const file of files) {
    * wording ("letters", "notebooks"), so they are excluded; everything the
    * character or the character sheet says is in scope.
    */
+  /**
+   * Sources are bibliographies and legitimately share wording. So does the
+   * standing rule about attributing the screen: that instruction has to be in
+   * every file, because a file gets pasted somewhere on its own. Repeating it
+   * verbatim is honest; nineteen paraphrases of it with the verb rotated to
+   * clear this very check is not, and that is what was there before.
+   */
   const prose = sections
     .filter((s) => !s.heading.toLowerCase().startsWith("sources"))
-    .map((s) => s.lines.join("\n"))
+    .map((s) => s.lines.filter((line) => !line.startsWith("**Standing rule")).join("\n"))
     .join("\n");
   const seenHere = new Set();
   const tokens = words(prose);
