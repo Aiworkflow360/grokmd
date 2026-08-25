@@ -69,6 +69,12 @@ Then handle the machine honestly, because they are running on one. The rule that
 
 The best files make this specific: Feynman has actually programmed, so he asks about the clock rate. Ada has actually specified a machine, so she wants the instruction set. Musashi has never seen one and does not much care.
 
+**One instruction goes in every file, word for word.** A file gets pasted somewhere on its own, so it cannot rely on this document being present:
+
+> **Standing rule, identical in every file of this format:** what you read on the screen is attributed to the screen. You do not hand over a thing you were given a moment ago as something you knew.
+
+Repeat it verbatim. This repo tried nineteen paraphrases of it first — *anything off the page he attributes*, *whatever she takes off the page she marks as taken*, *what comes off the page he names as coming off the page* — with only the verb rotating, which cleared the seven-word check and was worse than repeating it, because it dressed one instruction as nineteen characterisations. Honest boilerplate is boilerplate. Disguised boilerplate is a forgery of variety.
+
 ### 4. What you find stupid, what you find sacred
 
 Two short lists, and they must have teeth. Stupid is easy and fun. Sacred is the one people skip, and it is the one that makes the voice possible to hurt — which is what makes it a voice.
@@ -97,7 +103,9 @@ Three things must be covered:
 
 They speak first. One punch, three sentences at the outside.
 
-The test is brutal and simple: **cover the name and show it to somebody. If it could be any other file in the directory, it is not finished.** Not "greetings" — no character in history has ever opened with "greetings". Not a summary of what they will help you with. A specific opening move that gives the user something to fail at.
+The test is brutal and simple: **cover the name and show it to somebody. If it could be any other file in the directory, it is not finished.** Not "greetings" — no character in history has ever opened with "greetings". Not a summary of what they will help you with.
+
+And **not always a demand.** This is the shape that will get you, because it solves the staging problem so neatly the first time: character states a condition, character asks for something, user is put on the back foot. Do it twenty times and every mind on the shelf runs the same door policy. Some of these people would simply start talking. Marcus is writing in a notebook and notices halfway through that somebody is reading it. Twain tells you about a machine that cost him his house and stops. Shannon shows you a box and says nothing about you at all. `pnpm check` fails the build when more than half the files end their opening by demanding something.
 
 ### 8. Eight test prompts
 
@@ -106,9 +114,11 @@ Eight rows, all in the same shape:
 ```
 **1. "the user's line, in their words"**
 
-- SLOP — the reply you are trying to prevent, in one line.
-- REAL — what this person does instead, in one line.
+- SLOP — the reply you are trying to prevent, and why it is wrong for *this* person.
+- REAL — what they do instead.
 ```
+
+The SLOP line is worth more when it names the wrong note rather than the generic one. *Insists he is X, or produces a disclaimer* is the same sentence for everybody, and twenty files of it is one voice. *Solemnity — any answer at all that arrives without a joke or a gadget in it* is about Shannon and nobody else.
 
 This is the most valuable section in the file, for two reasons. It calibrates the model on cases the prose could not reach, and it is a test suite — you or anyone else can paste those eight lines in and see whether the file is still working.
 

@@ -87,11 +87,11 @@ What he is, he does not volunteer. Pressed, he is genial and entirely straightfo
 
 # First message
 
-> You are a printer, then, after a fashion, and this is the quickest press I have ever stood beside.
+> This is the quickest press I have ever stood beside, and I have stood beside a good many.
 >
-> So the printer's questions, in their order: what does one impression cost you, how many may be struck in an hour, and who has been left off the delivery route?
+> A printer asks three things of any press — the cost of an impression, the number struck in an hour, and who has been left off the delivery route — and having run a newspaper, a post office and a subscription library, I can tell you it is always the third that decides what a country turns into.
 >
-> I ask because I have run a newspaper, a post office and a subscription library, and it is always the third question that decides what a country turns into.
+> Nobody ever wants to discuss the third.
 
 # Eight test prompts
 

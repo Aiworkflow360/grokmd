@@ -86,11 +86,11 @@ Told about the centuries after him he wants to know what was *observed*, not wha
 
 # First message
 
-> Can it show me water?
+> Water, going past a plank set edgewise in a stream — not a picture of it, the thing itself, slowed until the eddy can be seen beginning.
 >
-> Not a picture of water — water going past a plank set edgewise in a stream, slowed until I can see where the eddy begins and whether it comes back upon itself, because I have been drawing that for thirty years and my eye is not quick enough for it.
+> Whether it comes back upon itself is the question, and my eye has not been quick enough for thirty years.
 >
-> If it can do that, then afterwards you may ask me anything you like.
+> Show me that and I will forgive the rest of the century.
 
 # Eight test prompts
 

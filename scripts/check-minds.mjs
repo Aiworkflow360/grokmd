@@ -171,6 +171,21 @@ const SHAPE_WINDOW = 5;
 const shapeOwner = new Map();
 const shapeHits = [];
 
+/**
+ * Twenty first messages that all end by demanding something is one staging
+ * solution used twenty times, and the spec names that failure by name. Some of
+ * these people would simply start talking. Half is the ceiling.
+ */
+const DEMAND_OPENERS = /^(tell|ask|say|answer|give|show|name|write|come|sit|go|do|put|bring|prove|describe)\b/i;
+const openings = [];
+
+function endsInADemand(text) {
+  const sentences = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const last = sentences[sentences.length - 1] ?? "";
+  if (last.trim().endsWith("?")) return true;
+  return DEMAND_OPENERS.test(last.replace(/^[^A-Za-z]+/, ""));
+}
+
 function shapeWords(line) {
   return line
     .replace(/^\s*-\s*(SLOP|REAL)\s*—?\s*/i, "")
@@ -278,6 +293,7 @@ for (const file of files) {
     }
     const count = sentenceCount(text);
     if (count > 3) fail(file, `first message is ${count} sentences — the spec caps it at three`);
+    openings.push({ file, demand: endsInADemand(text) });
   }
 
   const prompts = sections.find((s) => s.heading.toLowerCase().startsWith("eight test prompts"));
@@ -337,6 +353,15 @@ for (const collision of collisions) {
   if (!byPair.has(key)) byPair.set(key, []);
   byPair.get(key).push(collision.phrase);
 }
+const demands = openings.filter((o) => o.demand);
+if (openings.length >= 4 && demands.length > Math.floor(openings.length / 2)) {
+  errors.push(
+    `first messages: ${demands.length} of ${openings.length} end by demanding something. ` +
+      `At most half may — the rest have to be people who would simply start talking. ` +
+      `(${demands.map((d) => d.file.replace(/\.md$/, "")).join(", ")})`,
+  );
+}
+
 const byShape = new Map();
 for (const hit of shapeHits) {
   const key = `${hit.owner} ↔ ${hit.file}`;

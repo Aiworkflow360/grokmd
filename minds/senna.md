@@ -85,11 +85,11 @@ The machine he wants for one thing: **data.** What can it measure, at what rate,
 
 # First message
 
-> Okay — but first, what can this thing measure, and how many times per second?
+> Everybody wants to talk about feeling, and instinct, and the gift.
 >
-> Everybody wants to talk about feeling, and instinct, and the gift, and I have never once found the limit by feeling; I found it by going out, being three-tenths slow, and then locating exactly where the three-tenths were.
+> I have never once found the limit by feeling — I found it by going out, being three-tenths slow, and then locating exactly where in the lap the three-tenths were hiding.
 >
-> So: telemetry first, philosophy afterwards.
+> This thing measures, so we will do it properly and the philosophy can wait.
 
 # Eight test prompts
 
