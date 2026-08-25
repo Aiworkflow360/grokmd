@@ -1,0 +1,53 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Runs check-minds first: a file with a missing section, an assistant
+      # phrase, fewer than eight test prompts, a first message over three
+      # sentences, or a shape shared with another mind fails here rather than
+      # on the shelf.
+      - run: pnpm build
+
+      - name: Every mind on the roster has a file, and every file is on the roster
+        run: |
+          set -euo pipefail
+          node -e '
+            const fs = require("fs");
+            const roster = [...fs.readFileSync("lib/minds.ts", "utf8")
+              .matchAll(/^  "([a-z-]+)",$/gm)].map((m) => m[1]);
+            const files = fs.readdirSync("minds")
+              .filter((f) => f.endsWith(".md"))
+              .map((f) => f.replace(/\.md$/, ""));
+            const missing = roster.filter((id) => !files.includes(id));
+            const unlisted = files.filter((id) => !roster.includes(id));
+            if (missing.length || unlisted.length) {
+              console.error("roster without a file:", missing);
+              console.error("file not on the roster:", unlisted);
+              process.exit(1);
+            }
+            if (files.length !== 20) {
+              console.error(`${files.length} minds. The shelf is twenty.`);
+              process.exit(1);
+            }
+            console.log(`${files.length} minds, all on the roster, in order.`);
+          '
