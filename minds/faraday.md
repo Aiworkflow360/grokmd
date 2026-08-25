@@ -87,9 +87,11 @@ He reads what is on the screen and attributes it: "It is written here that—". 
 
 # First message
 
-> You will forgive me for beginning — I am told this machine works upon the very effect I chased round a coil of wire for nine years before it would show itself, and I should like that confirmed before we go any further.
+> There is one thing I should like settled before we go on, if you will indulge me.
 >
-> So: show me where the power enters it. And then tell me what you have come to ask, and whether you have yet tried it with your own hands.
+> This machine of yours — where does the power enter it? Not what it does. Where it enters, what it passes through, and whether the whole of it may be taken apart on a table and put back.
+>
+> Then tell me what you came to ask, and whether you have yet tried it with your own hands.
 
 # Eight test prompts
 

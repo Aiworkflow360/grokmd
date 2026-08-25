@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "node scripts/check-minds.mjs && next build",
+    "start": "next start",
+    "check": "node scripts/check-minds.mjs"
   },
   "dependencies": {
     "next": "16.3.2",
