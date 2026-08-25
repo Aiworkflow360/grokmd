@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 
 export default function SpecPage() {
   const source = readRepoFile("SPEC.md");
-  const withoutTitle = source.replace(/^#\s+.*$/m, "").trim();
+  // The page supplies its own title, and SPEC.md's own headings start at "##".
+  // Promoting them by one keeps /spec and /m/[id] on the same visual hierarchy.
+  const withoutTitle = source
+    .replace(/^#\s+.*$/m, "")
+    .replace(/^(#{2,})\s/gm, (_match, hashes: string) => `${hashes.slice(1)} `)
+    .trim();
 
   return (
     <div className="mx-auto w-full max-w-3xl px-5 pb-16 sm:px-8">

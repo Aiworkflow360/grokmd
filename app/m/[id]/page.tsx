@@ -43,7 +43,7 @@ export default async function MindPage({ params }: { params: Promise<{ id: strin
 
   const body = mind.sections
     .filter((section) => !HOISTED.some((prefix) => section.heading.toLowerCase().startsWith(prefix)))
-    .map((section) => `## ${section.heading}\n\n${section.body}`)
+    .map((section) => `# ${section.heading}\n\n${section.body}`)
     .join("\n\n");
 
   const shareText = `${mind.name} as a GROK.md. Not a costume — the real temperature.`;
